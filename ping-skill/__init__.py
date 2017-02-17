@@ -62,9 +62,10 @@ class PingSkill(MycroftSkill):
                 response = requests.get(hosts[message.metadata.get("URL")][0])
                 SPEAK response.reason
             else:
-            # XXX import os
-                response = os.system("ping -c1 -w2 " + hosts[message.metadata.get("URL")][0])
-                SPEAK "Pinged in " + response.split('\n')[-1].split('\\')[5] +" milliseconds."
+            # XXX import subprocess as sp
+                status,result = sp.getstatusoutput("ping -c1 -w2 " + hosts[message.metadata.get("URL")][0])
+                #result = os.system("ping -c1 -w2 " + hosts[message.metadata.get("URL")][0])
+                SPEAK "Pinged in " + result.split('\n')[-1].split('/')[5] +" milliseconds."
         else:
             # try to parse the URL
             #if any item in array is 'dot', replace with '.'
