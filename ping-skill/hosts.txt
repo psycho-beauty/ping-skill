@@ -4,14 +4,15 @@
 #     google, 0, https://google.com
 # "Ping google" will return the ping time of https://google.com.
 # Given
-#     linux, 1, http://www.linux.com
-# "Ping Linux" will return the server status for http://www.linux.com
+#     linux, 1, https://www.linux.com
+# "Ping Linux" will return the server status for https://www.linux.com
 
 # Note: When using the server status feature, a badly formed URL will
 # often be rerouted to your internet provider's search, and will hence
 # return the status of that server, usually `OK`. So double check your URLs.
 
 google,0,https://google.com
-linux, 1, http://www.linux.com
-yourself,0, http://mycroft.ai
+linux, 1, https://www.linux.com
+yourself,0, http://localhost
+mycroft, 0, https://mycroft.ai
 
