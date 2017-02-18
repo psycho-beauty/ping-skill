@@ -20,9 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from os.path import dirname, join
-from os import listdir
-import re
+import requests
+import subprocess as sp
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
@@ -43,47 +42,45 @@ class PingSkill(MycroftSkill):
         self.load_data_files(dirname(__file__))
 
         ping_intent = IntentBuilder("PingIntent")\
-            .require("PingKeyword").require("URL").build()
+            .require("PingKeyword").require("key").build()
         self.register_intent(ping_intent, self.handle_ping_intent)
 
 
     def handle_ping_intent(self, message):
-        
+        hosts = dict()
         f = open('hosts.txt','r')
         for line in f.readlines():
+            if line.startswith("#") or "," not in line:
+                continue
             l=line.split(",")
             hosts[l[0].strip()] = [l[1].strip(), l[2].strip()]
         f.close()
         
-        # TODO check for errors
-        if message.metadata.get("URL") in hosts:
-            if hosts[message.metadata.get("URL")][1] == "True":
-                # XXX import requests
-                response = requests.get(hosts[message.metadata.get("URL")][0])
-                SPEAK response.reason
+        k = message.data.get("key").lower()
+        if k in hosts:
+            if hosts[k][0] == '1':
+                response = requests.get(hosts[k][1])
+                self.speak_dialog("ServerResponse", response.reason +" "+ \
+                    str(response.status_code) )
             else:
-            # XXX import subprocess as sp
-                status,result = sp.getstatusoutput("ping -c1 -w2 " + hosts[message.metadata.get("URL")][0])
-                #result = os.system("ping -c1 -w2 " + hosts[message.metadata.get("URL")][0])
-                SPEAK "Pinged in " + result.split('\n')[-1].split('/')[5] +" milliseconds."
+                status,result = sp.getstatusoutput("ping -c1 -w2 " \
+                    + hosts[k][1][(hosts[k][1]).find("//")+2:])
+                if status == 0:
+                    self.speak_dialog("PingResponse", result.split('/')[5] )
+                else:
+                    self.speak_dialog("PingFailure")
         else:
-            # try to parse the URL
-            #if any item in array is 'dot', replace with '.'
-            # join the string and ping
-            url = message.metadata.get("URL").replace("dot", ".")
+            # way too complex to parse spoken full URLs, 
+            # just exit if keyword not found. 
+            SPEAK "Server keyword not recognized."
             
-            
-        # Ping the URL requested
-        title = message.metadata.get("SongTitle")
-        # No need to speak the title...
-        # self.speak_dialog("play.song", {'title': title})
-        title += ".mp3"
-        title = re.sub(" ", "_", title)
-        self.process = play_mp3(join(dirname(__file__), "mp3", title))
-
-
+            # Possible TODO: add spoken URL to ping
+            # Parse URL? Libraries? Just google it and ping first result?
+            #  if any item in array is 'dot', replace with '.'
+            #    ... so, slashdot is impossible to parse.
+            #  if last, replace: calm, come, cum, etc., with com
 
 
 
 def create_skill():
-return PingSkill()
+    return PingSkill()
