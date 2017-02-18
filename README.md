@@ -18,9 +18,9 @@ This line will tell the Ping Skill that `google` is the keyword, 0 is for a ping
     
 will respond with the server status of linux.com, because of the `1` after the keyword.
 
-If you are running a server that can respond to GET requests, such as using [Huginn](https://github.com/cantino/huginn) (or other IFTT software), then a setting like
+If you are running server software that can respond to GET requests, such as [Huginn](https://github.com/cantino/huginn), then a setting like
 
-    hug, 1, http://www.yourdomain.com/users/1/web_requests/2/supersecretstring
+    hug, 1, http://www.HuginnDomain.com/users/1/web_requests/2/supersecretstring?service=start
 
-and the corresponding Huginn Web Hook Agent on the remote end will suffice to have a Mycroft remote control for the server. Saying `Mycroft: Ping Hug` will load that URL, which will execute code on the server. Mycroft will receive the custom server response, `Event Created 201`.
+and the corresponding Huginn Web Hook Agent on the remote end will suffice to make a Mycroft remote control. Saying `Mycroft: Ping Hug` will load that URL, which will execute code on the server. Mycroft will reply with the custom server response, `Event Created 201`, to confirm the instruction was received.
 
