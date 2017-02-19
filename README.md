@@ -8,7 +8,7 @@ If a keyword is set to get the server response, then Mycroft will reply, `Server
 
 ---
 
-Configuration is stored in a text file, `hosts.txt`, with one keyword,setting,URL per line:
+Configuration is stored in a text file, `hosts.txt`, with one "keyword,setting,URL" per line:
 
     google,0,https://google.com
     
