@@ -80,7 +80,10 @@ class PingSkill(MycroftSkill):
             #    ... so, slashdot is impossible to parse.
             #  if last, replace: calm, come, cum, etc., with com
 
-
+    # Ping/ Server errors usually don't take more than a second or two 
+    # to register so there isn't much opportunity to stop the operation.
+    def stop(self)
+        pass
 
 def create_skill():
     return PingSkill()
