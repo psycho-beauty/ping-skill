@@ -72,7 +72,7 @@ class PingSkill(MycroftSkill):
         else:
             # way too complex to parse spoken full URLs, 
             # just exit if keyword not found. 
-            SPEAK "Server keyword not recognized."
+            self.speak_dialog("KeywordFailure")
             
             # Possible TODO: add spoken URL to ping
             # Parse URL? Libraries? Just google it and ping first result?
@@ -80,7 +80,7 @@ class PingSkill(MycroftSkill):
             #    ... so, slashdot is impossible to parse.
             #  if last, replace: calm, come, cum, etc., with com
 
-    # Ping/ Server errors usually don't take more than a second or two 
+    # Ping/ Server responses usually don't take more than a second or two 
     # to register so there isn't much opportunity to stop the operation.
     def stop(self)
         pass
