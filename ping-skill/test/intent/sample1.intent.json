@@ -3,6 +3,6 @@
   "intent_type": "PingIntent",
   "intent": {
     "PingKeyword": "ping",
-    "Key": "google"
+    "key": "google"
   }
 }

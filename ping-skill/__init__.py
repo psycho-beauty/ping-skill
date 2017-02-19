@@ -1,7 +1,7 @@
-from os.path import dirname
-
 import requests
 import subprocess as sp
+
+from os.path import dirname
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
@@ -16,7 +16,6 @@ class PingSkill(MycroftSkill):
 
     def __init__(self):
         super(PingSkill, self).__init__(name="PingSkill")
-        self.process = None
 
     def initialize(self):
         self.load_data_files(dirname(__file__))
@@ -55,13 +54,13 @@ class PingSkill(MycroftSkill):
             self.speak_dialog("KeywordFailure")
             
             # Possible TODO: add spoken URL to ping
-            # Parse URL? Libraries? Just google it and ping first result?
-            #  if any item in array is 'dot', replace with '.'
-            #    ... so, slashdot is impossible to parse.
-            #  if last, replace: calm, come, cum, etc., with com
+            # Parse URL Libraries? Just google it and ping first result?
+            #  if any item in array is 'dot', replace with '.'?
+            #    ... so, `slashdot.com` is impossible to parse.
+            #  replace: calm, come, cum, etc., with `com`, if last?
 
-    # Ping/ Server responses usually don't take more than a second or two 
-    # to register so there isn't much opportunity to stop the operation.
+    # Ping/ Server responses usually don't take more than 1 or 2 seconds at
+    # most to register so there isn't much opportunity to stop the operation.
     def stop(self)
         pass
 
