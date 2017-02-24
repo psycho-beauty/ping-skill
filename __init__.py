@@ -61,7 +61,7 @@ class PingSkill(MycroftSkill):
 
     # Ping/ Server responses usually don't take more than 1 or 2 seconds at
     # most to register so there isn't much opportunity to stop the operation.
-    def stop(self)
+    def stop(self):
         pass
 
 def create_skill():
