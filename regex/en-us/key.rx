@@ -1,0 +1,2 @@
+ping (?P<key>.*)
+pin (?P<key>.*)
