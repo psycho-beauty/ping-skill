@@ -1,7 +1,6 @@
 import requests
-import subprocess as sp
-
-from os.path import dirname
+import commands
+from os.path import dirname, join
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
@@ -26,8 +25,10 @@ class PingSkill(MycroftSkill):
 
 
     def handle_ping_intent(self, message):
+        
+#        import subprocess as sp
         hosts = dict()
-        f = open('hosts.txt','r')
+        f = open(join(dirname(__file__), "hosts.txt"), 'r')
         for line in f.readlines():
             if line.startswith("#") or "," not in line:
                 continue
@@ -39,13 +40,15 @@ class PingSkill(MycroftSkill):
         if k in hosts:
             if hosts[k][0] == '1':
                 response = requests.get(hosts[k][1])
-                self.speak_dialog("ServerResponse", response.reason +" "+ \
-                    str(response.status_code) )
+                data = {"response": response.reason +" "+ \
+                    str(response.status_code) }
+                self.speak_dialog("ServerResponse", data)
             else:
-                status,result = sp.getstatusoutput("ping -c1 -w2 " \
+                status,result = commands.getstatusoutput("ping -c1 -w2 " \
                     + hosts[k][1][(hosts[k][1]).find("//")+2:])
                 if status == 0:
-                    self.speak_dialog("PingResponse", result.split('/')[5] )
+                    data = {"response": result.split('/')[5]}
+                    self.speak_dialog("PingResponse", data)
                 else:
                     self.speak_dialog("PingFailure")
         else:
