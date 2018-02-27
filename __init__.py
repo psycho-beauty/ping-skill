@@ -52,10 +52,10 @@ class PingSkill(MycroftSkill):
                 else:
                     self.speak_dialog("PingFailure")
                     LOGGER.info(result)
-                    result_message = result.lower()
+                    result_message = result.lower().strip()
                     if result_message.startswith('ping:'):
                         result_message = result_message[5:]
-                    if 'name' in result_message or 'dns' in result_message:
+                    if 'name' in result_message or 'dns' in result_message or 'unknown host' in result_message:
                         self.speak(result_message)
         else:
             # way too complex to parse spoken full URLs, 
