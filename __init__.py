@@ -51,11 +51,17 @@ class PingSkill(MycroftSkill):
                     self.speak_dialog("PingResponse", data)
                 else:
                     self.speak_dialog("PingFailure")
+                    LOGGER.info(result)
+                    result_message = result.lower()
+                    if result_message.startswith('ping:'):
+                        result_message = result_message[5:]
+                    if 'name' in result_message or 'dns' in result_message:
+                        self.speak(result_message)
         else:
             # way too complex to parse spoken full URLs, 
             # just exit if keyword not found. 
             self.speak_dialog("KeywordFailure")
-            
+            LOGGER.info('Requested network node alias not found in hosts.txt registry.')
             # Possible TODO: add spoken URL to ping
             # Parse URL Libraries? Just google it and ping first result?
             #  if any item in array is 'dot', replace with '.'?
