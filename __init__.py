@@ -23,16 +23,14 @@ class PingSkill(MycroftSkill):
             .require("PingKeyword").require("key").build()
         self.register_intent(ping_intent, self.handle_ping_intent)
 
-
-    def handle_ping_intent(self, message):
-        
+    def handle_ping_intent(self, message):       
 #        import subprocess as sp
         hosts = dict()
         f = open(join(dirname(__file__), "hosts.txt"), 'r')
         for line in f.readlines():
             if line.startswith("#") or "," not in line:
                 continue
-            l=line.split(",")
+            l = line.split(",")
             hosts[l[0].strip()] = [l[1].strip(), l[2].strip()]
         f.close()
         
@@ -40,28 +38,34 @@ class PingSkill(MycroftSkill):
         if k in hosts:
             if hosts[k][0] == '1':
                 response = requests.get(hosts[k][1])
-                data = {"response": response.reason +" "+ \
-                    str(response.status_code) }
+                data = {"response": response.reason + " " +
+                        str(response.status_code)}
                 self.speak_dialog("ServerResponse", data)
             else:
-                status,result = commands.getstatusoutput("ping -c1 -w2 " \
-                    + hosts[k][1][(hosts[k][1]).find("//")+2:])
+                status,result = commands.getstatusoutput("ping -c1 -w2 "
+                                + hosts[k][1][(hosts[k][1]).find("//")+2:])
                 if status == 0:
                     data = {"response": result.split('/')[5]}
                     self.speak_dialog("PingResponse", data)
                 else:
                     self.speak_dialog("PingFailure")
-                    LOGGER.info(result)
+                    LOGGER.debug(result)
                     result_message = result.lower().strip()
                     if result_message.startswith('ping:'):
                         result_message = result_message[5:]
-                    if 'name' in result_message or 'dns' in result_message or 'unknown host' in result_message:
+                    if ('name' in result_message or
+                            'dns' in result_message or
+                            'source' in result_message or
+                            'destination' in result_message or
+                            'network' in result_message or
+                            'host' in result_message):
                         self.speak(result_message)
         else:
             # way too complex to parse spoken full URLs, 
             # just exit if keyword not found. 
             self.speak_dialog("KeywordFailure")
-            LOGGER.info('Requested network node alias not found in hosts.txt registry.')
+            LOGGER.info('Requested network node alias not found '
+                        'in hosts.txt registry.')
             # Possible TODO: add spoken URL to ping
             # Parse URL Libraries? Just google it and ping first result?
             #  if any item in array is 'dot', replace with '.'?
@@ -72,6 +76,7 @@ class PingSkill(MycroftSkill):
     # most to register so there isn't much opportunity to stop the operation.
     def stop(self):
         pass
+
 
 def create_skill():
     return PingSkill()
