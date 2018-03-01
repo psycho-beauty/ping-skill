@@ -13,7 +13,7 @@
 
 google, 0, https://google.com
 linux, 1, https://www.linux.com
-raspberry pie, 1, https://www.raspberrypi.org/
+raspberry pi, 1, https://www.raspberrypi.org/
 raspbian, 0, raspbian.org
 yourself, 0, http://localhost
 yourself via mdns,0,mycroft.local
