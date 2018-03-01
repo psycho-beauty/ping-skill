@@ -11,8 +11,15 @@
 # often be rerouted to your internet provider's search, and will hence
 # return the status of that server, usually `OK`. So double check your URLs.
 
-google,0,https://google.com
+google, 0, https://google.com
 linux, 1, https://www.linux.com
-yourself,0, http://localhost
+raspberry pi, 1, https://www.raspberrypi.org/
+raspbian, 0, raspbian.org
+yourself, 0, http://localhost
+yourself via mdns,0,mycroft.local
 mycroft, 0, https://mycroft.ai
-
+# Below are sites that are actual remote infrastructure dependencies for the normal function of mycroft
+home, 0, home.mycroft.ai
+github, 1, https://api.github.com/meta
+python, 1, http://status.python.org/
+python package index, 1, https://pypi.python.org/pypi/request/json
