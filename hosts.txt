@@ -18,6 +18,21 @@ raspbian, 0, raspbian.org
 yourself, 0, http://localhost
 yourself via mdns,0,mycroft.local
 mycroft, 0, https://mycroft.ai
+reception camera,0,192.168.3.118
+gym camera,0,192.168.3.119
+pedicure camera,0,192.168.3.110
+manicure camera,0,192.168.3.111
+pool camera,0,192.168.3.19
+clubroom camera,0,192.168.3.108
+gate camera,0,192.168.3.121
+carpark camera,0,192.168.3.236
+penguin camera,0,192.168.3.107
+kitchen camera,0,192.168.3.149
+office camera,0,192.168.3.114
+office door camera,0,192.168.3.36
+office pc,0,192.168.3.126
+server,0,192.168.3.128
+storage,0,192.168.3.115
 # Below are sites that are actual remote infrastructure dependencies for the normal function of mycroft
 home, 0, home.mycroft.ai
 github, 1, https://api.github.com/meta
